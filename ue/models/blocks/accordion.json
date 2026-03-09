@@ -7,8 +7,8 @@
       "filter": "accordion",
       "plugins": {
         "da": {
-          "rows": 1,
-          "columns": 2
+          "rows": 0,
+          "columns": 0
         }
       }
     },
