@@ -21,8 +21,8 @@
           "rows": 1,
           "columns": 2,
           "fields": [
-            { "name": "summary", "selector": "details:nth-child(1)" },
-            { "name": "text", "selector": "details:nth-child(2)" }
+            { "name": "summary", "selector": "summary" },
+            { "name": "text", "selector": ".accordion-item-body" }
           ]
         }
       }
