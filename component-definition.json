@@ -54,8 +54,8 @@
           "filter": "accordion",
           "plugins": {
             "da": {
-              "rows": 0,
-              "columns": 0
+              "rows": 1,
+              "columns": 2
             }
           }
         },
