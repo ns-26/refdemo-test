@@ -13,11 +13,16 @@
   ],
   "models": [
     {
-      "component": "text",
-      "name": "text",
-      "value": "",
-      "label": "Text",
-      "valueType": "string"
+      "id": "text",
+      "fields": [
+      {
+        "component": "text",
+        "name": "text",
+        "value": "",
+        "label": "Text",
+        "valueType": "string"
+      }
+    ]
     }
   ]
 }
