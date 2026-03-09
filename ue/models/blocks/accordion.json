@@ -21,8 +21,8 @@
           "rows": 1,
           "columns": 2,
           "fields": [
-            { "name": "summary", "selector": "summary" },
-            { "name": "text", "selector": ".accordion-item-body" }
+            { "name": "summary", "selector": "details>summary" },
+            { "name": "text", "selector": "details>.accordion-item-body" }
           ]
         }
       }

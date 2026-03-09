@@ -70,11 +70,11 @@
               "fields": [
                 {
                   "name": "summary",
-                  "selector": "summary"
+                  "selector": "details>summary"
                 },
                 {
                   "name": "text",
-                  "selector": ".accordion-item-body"
+                  "selector": "details>.accordion-item-body"
                 }
               ]
             }
