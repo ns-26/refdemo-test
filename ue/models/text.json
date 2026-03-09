@@ -11,5 +11,13 @@
       }
     }
   ],
-  "models": []
+  "models": [
+    {
+      "component": "text",
+      "name": "text",
+      "value": "",
+      "label": "Text",
+      "valueType": "string"
+    }
+  ]
 }

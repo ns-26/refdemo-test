@@ -26,6 +26,13 @@
     ]
   },
   {
+    "component": "text",
+    "name": "text",
+    "value": "",
+    "label": "Text",
+    "valueType": "string"
+  },
+  {
     "id": "image",
     "fields": [
       {
