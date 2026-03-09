@@ -70,11 +70,11 @@
               "fields": [
                 {
                   "name": "summary",
-                  "selector": "div:nth-child(1)"
+                  "selector": "details:nth-child(1)"
                 },
                 {
                   "name": "text",
-                  "selector": "div:nth-child(2)"
+                  "selector": "details:nth-child(2)"
                 }
               ]
             }
