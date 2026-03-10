@@ -156,11 +156,11 @@
                 },
                 {
                   "name": "style",
-                  "selector": "div:nth-child(3)>:first-child"
+                  "selector": "div:nth-child(3)>p"
                 },
                 {
                   "name": "cta",
-                  "selector": "div:nth-child(4)"
+                  "selector": "div:nth-child(4) a"
                 }
               ]
             }
