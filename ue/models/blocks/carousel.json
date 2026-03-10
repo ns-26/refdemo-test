@@ -25,7 +25,7 @@
             { "name": "backgroundImageAlt", "selector": "div:nth-child(1)>picture>img[alt]" },
             { "name": "text", "selector": "div:nth-child(2)" },
             { "name": "style", "selector": "div:nth-child(3)>p" },
-            { "name": "cta", "selector": "div:nth-child(4) a" }
+            { "name": "cta", "selector": "div:nth-child(4)>p" }
           ]
         }
       }
