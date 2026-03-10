@@ -118,7 +118,7 @@
   "filters": [
     {
       "id": "carousel",
-      "components": ["carousel-item"]
+      "components": ["carousel-card"]
     }
   ]
 }
