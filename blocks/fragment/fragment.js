@@ -4,6 +4,7 @@
  * https://www.aem.live/developer/block-collection/fragment
  */
 
+// eslint-disable-next-line import/no-cycle
 import {
   decorateMain,
 } from '../../scripts/scripts.js';
@@ -44,6 +45,8 @@ export async function loadFragment(path) {
 export default async function decorate(block) {
   const link = block.querySelector('a');
   const path = link ? link.getAttribute('href') : block.textContent.trim();
+  console.log('path', path);
   const fragment = await loadFragment(path);
+  console.log('fragment', fragment);
   if (fragment) block.replaceChildren(...fragment.childNodes);
 }
