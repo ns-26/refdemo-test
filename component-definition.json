@@ -325,7 +325,7 @@
           "plugins": {
             "da": {
               "rows": 1,
-              "columns": 2,
+              "columns": 5,
               "fields": [
                 {
                   "name": "title",
