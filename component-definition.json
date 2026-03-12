@@ -387,7 +387,7 @@
               "fields": [
                 {
                   "name": "videoUrl",
-                  "selector": "div>div>video>source[src]"
+                  "selector": "div>div>p>a[href]"
                 }
               ]
             }
