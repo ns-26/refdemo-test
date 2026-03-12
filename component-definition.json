@@ -313,8 +313,8 @@
           "filter": "tabs",
           "plugins": {
             "da": {
-              "rows": 1,
-              "columns": 2
+              "rows": 0,
+              "columns": 0
             }
           }
         },
@@ -329,11 +329,27 @@
               "fields": [
                 {
                   "name": "title",
-                  "selector": "div:nth-child(1)>p:nth-child(1)"
+                  "selector": "button.tabs-tab"
+                },
+                {
+                  "name": "heading",
+                  "selector": "p:nth-child(2)"
+                },
+                {
+                  "name": "subheading",
+                  "selector": "p:nth-child(3)"
+                },
+                {
+                  "name": "image",
+                  "selector": "picture>img[src]"
+                },
+                {
+                  "name": "imageAlt",
+                  "selector": "picture>img[alt]"
                 },
                 {
                   "name": "content",
-                  "selector": "div:nth-child(2)"
+                  "selector": "p:nth-child(5)"
                 }
               ]
             }

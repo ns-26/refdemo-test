@@ -334,6 +334,36 @@
         "value": ""
       },
       {
+        "component": "text",
+        "name": "heading",
+        "valueType": "string",
+        "label": "Heading",
+        "multi": false,
+        "value": ""
+      },
+      {
+        "component": "text",
+        "name": "subheading",
+        "valueType": "string",
+        "label": "Subheading",
+        "multi": false,
+        "value": ""
+      },
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "image",
+        "label": "Image",
+        "multi": false
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "imageAlt",
+        "label": "Image Alt Text",
+        "multi": false
+      },
+      {
         "component": "richtext",
         "name": "content",
         "label": "Content",
