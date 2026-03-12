@@ -1,6 +1,6 @@
 import {
   div, a, span, img, video, source, button,
-  h1,
+  h2,
 } from '../../scripts/dom-helpers.js';
 import { readBlockConfig } from '../../scripts/aem.js';
 
@@ -107,31 +107,46 @@ function attachListeners() {
 
 export default function decorate(block) {
   const rteElementTag = Array.from(block.querySelectorAll('p'))
-    .find((el) => el.textContent.trim() === 'teaserBlurb');
+    .find((el) => el.textContent.trim() === 'title');
   const rteElement = rteElementTag?.parentElement?.nextElementSibling;
   const rteContent = rteElement?.querySelector('p')?.innerHTML;
-  const sampleVideo = 'https://publish-p16362-e1620892.adobeaemcloud.com/content/dam/wknd-universal/wknd-banner.mp4';
+  const sampleVideo = 'https://v.ftcdn.net/02/35/97/40/700_F_235974059_oVftmgBBJ32tgsDvxRdMdtpQDMfNFWEt_ST.mp4';
 
   const properties = readBlockConfig(block);
+
+  let swooshbgClass = 'swoosh-bg';
+  let swooshlayersClass = 'swoosh-layers';
+
+  if (properties.useswoosh && properties.useswoosh === 'false') {
+    swooshbgClass = 'swoosh-bg-hidden';
+    swooshlayersClass = 'swoosh-layers-hidden';
+  }
+
+  // Get CTA style and set button container class
+  let buttonContainerClass = 'button-container';
+  if (properties.ctastyle) {
+    buttonContainerClass = `cta-${properties.ctastyle}`;
+  }
+
   const swooshFirst = `${window.hlx.codeBasePath}/icons/teaser_innerswoosh.svg`;
   const swooshSecond = `${window.hlx.codeBasePath}/icons/teaser_outerswoosh.svg`;
   const isVideo = (properties.teaserstyle && properties.teaserstyle === 'video');
   const videoAutoplay = (properties.videobehavior && properties.videobehavior === 'autoplay');
-  const buttonText = (properties['btn-text']) ? properties['btn-text'] : 'Button';
+  const buttonText = (properties.buttontext) ? properties.buttontext : 'Button';
   const buttonStyle = (properties['btn-style']) ? properties['btn-style'] : 'dark-bg';
   const buttonLink = (properties['btn-link']) ? properties['btn-link'] : '';
   const videoReference = isVideo ? properties.videoreference : sampleVideo;
   const teaser = div({ class: 'teaser-container' },
     isVideo ? createVideoPlayer(videoReference) : createBackgroundImage(properties),
     div({ class: 'teaser-swoosh-wrapper' },
-      div({ class: 'swoosh-bg' }),
-      div({ class: 'swoosh-layers' },
+      div({ class: swooshbgClass }),
+      div({ class: swooshlayersClass },
         img({ class: 'swoosh first', src: swooshFirst, alt: 'background swoosh first' }),
         img({ class: 'swoosh second', src: swooshSecond, alt: 'background swoosh second' }),
       ),
       div({ class: 'teaser-title-wrapper' },
-        h1({ class: 'teaser-title' }),
-        div({ class: 'button-container' },
+        h2({ class: 'teaser-title' }),
+        div({ class: buttonContainerClass },
           a({ id: 'button', href: buttonLink, class: `button ${buttonStyle}` },
             span({ class: 'button-text' }, buttonText),
           ),
@@ -140,7 +155,7 @@ export default function decorate(block) {
     ),
   );
 
-  teaser.querySelector('.teaser-title').innerHTML = properties.teaserblurb ? rteContent : 'Title';
+  teaser.querySelector('.teaser-title').innerHTML = properties.title ? rteContent : 'Title';
   block.innerHTML = '';
   block.appendChild(teaser);
 
