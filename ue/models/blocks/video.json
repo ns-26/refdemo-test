@@ -20,7 +20,7 @@
       "id": "video",
       "fields": [
         {
-          "component": "reference",
+          "component": "text",
           "name": "videoUrl",
           "label": "Video URL",
           "valueType": "string",
