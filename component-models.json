@@ -440,23 +440,11 @@
     "id": "video",
     "fields": [
       {
-        "component": "reference",
-        "name": "posterImage",
-        "label": "Poster Image",
-        "valueType": "string"
-      },
-      {
         "component": "text",
         "name": "videoUrl",
         "label": "Video URL",
         "valueType": "string",
         "required": true
-      },
-      {
-        "component": "text",
-        "name": "videoUrlText",
-        "label": "Video URL Text",
-        "valueType": "string"
       }
     ]
   }
