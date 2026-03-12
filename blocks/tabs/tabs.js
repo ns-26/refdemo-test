@@ -33,7 +33,6 @@ export default async function decorate(block) {
   // Proactively remove any style-config node so it doesn't become a tab (UE/Live)
   const styleNodes = block.querySelectorAll('p[data-aue-prop="tabsstyle"]');
   styleNodes.forEach((node) => {
-    // find the nearest direct child of the block that contains this node
     let container = node;
     while (container && container.parentElement !== block) {
       container = container.parentElement;
@@ -50,141 +49,118 @@ export default async function decorate(block) {
     .filter((child) => child.matches && child.matches('p[data-aue-prop="title"]'))
     .forEach((titleNode) => titleNode.remove());
 
-  // Check if card-style-tab variant is requested
   const cardStyleVariant = block.classList.contains('card-style-tab');
 
-  // build tablist
-  const tablist = document.createElement('div');
-  tablist.className = 'tabs-list';
-  tablist.setAttribute('role', 'tablist');
-  tablist.id = `tablist-${tabBlockCnt += 1}`;
-
-  // the first cell of each row is the title of the tab
-  // Build tab items, skipping children without a valid title
+  // Build tab items from authored rows, skipping children without a valid title
   const tabItems = [];
   [...block.children].forEach((child) => {
     if (!child || !child.firstElementChild) return;
-    // ignore any container that is just the style selector (already removed earlier)
     if (child.querySelector && child.querySelector('p[data-aue-prop="tabsstyle"]')) return;
     const heading = child.firstElementChild;
     const explicitTitle = child.querySelector && child.querySelector('p[data-aue-prop="title"]');
     const labelText = (explicitTitle?.textContent || heading?.textContent || '').trim();
-    if (!labelText) return; // skip items with empty labels to avoid blank tabs
+    if (!labelText) return;
     tabItems.push({ tabpanel: child, heading });
   });
 
-  // Hide any other stray authoring nodes at the root level that are not tab items
-  const allowedChildren = new Set(tabItems.map((i) => i.tabpanel));
-  [...block.children].forEach((child) => {
-    if (!allowedChildren.has(child)) {
-      // Hide rather than remove to avoid interfering with UE selection
-      child.style.display = 'none';
-    }
-  });
+  tabBlockCnt += 1;
+
+  // Outer ul wrapper (mirrors accordion structure)
+  const outerUl = document.createElement('ul');
+
+  // Tablist as li (first list item holds all tab buttons)
+  const tablist = document.createElement('li');
+  tablist.className = 'tabs-list';
+  tablist.setAttribute('role', 'tablist');
+  tablist.id = `tablist-${tabBlockCnt}`;
 
   tabItems.forEach((item, i) => {
     const id = `tabpanel-${tabBlockCnt}-tab-${i + 1}`;
-    const { tabpanel, heading: tab } = item;
+    const { tabpanel: row, heading: tab } = item;
 
-    // Prefer explicit title field from authoring if available
-    const titleEl = tabpanel.querySelector('p[data-aue-prop="title"]');
-    // Store title/heading content before any DOM manipulation
+    const titleEl = row.querySelector('p[data-aue-prop="title"]');
     const headingContent = (titleEl ? titleEl.innerHTML : tab.innerHTML);
 
-    // For card-style-tab variant, reorganize content first
+    // Each tab panel becomes an li (mirrors accordion-item)
+    const panelLi = document.createElement('li');
+    panelLi.className = 'tabs-panel';
+    panelLi.id = id;
+    panelLi.setAttribute('aria-hidden', !!i);
+    panelLi.setAttribute('aria-labelledby', `tab-${id}`);
+    panelLi.setAttribute('role', 'tabpanel');
+    moveInstrumentation(row, panelLi);
+
     if (cardStyleVariant) {
-      // Create wrapper for content (always)
       const contentWrapper = document.createElement('div');
       contentWrapper.className = 'tabs-panel-content';
 
-      // Optional image wrapper if a picture is present
-      const picture = tabpanel.querySelector('picture');
+      const picture = row.querySelector('picture');
       let imageWrapper = null;
       if (picture) {
         imageWrapper = document.createElement('div');
         imageWrapper.className = 'tabs-panel-image';
-
-        // Extract picture - handle if it's wrapped in a p tag
         const pictureParent = picture.parentElement;
         const pictureElement = (pictureParent && pictureParent.tagName === 'P') ? pictureParent : picture;
         imageWrapper.appendChild(pictureElement);
       }
 
-      // Move all remaining children to content wrapper, excluding the heading and title field
-      const children = Array.from(tabpanel.children);
+      const children = Array.from(row.children);
       children.forEach((child) => {
         if (child !== tab && child !== imageWrapper && child !== titleEl) {
           contentWrapper.appendChild(child);
         }
       });
 
-      // Clear tabpanel and add wrappers back
-      tabpanel.innerHTML = '';
       if (imageWrapper) {
-        tabpanel.appendChild(imageWrapper);
-        tabpanel.classList.remove('no-image');
+        panelLi.appendChild(imageWrapper);
       } else {
-        tabpanel.classList.add('no-image');
+        panelLi.classList.add('no-image');
       }
-      tabpanel.appendChild(contentWrapper);
+      panelLi.appendChild(contentWrapper);
+    } else {
+      if (tab && tab.parentElement === row) tab.remove();
+      if (titleEl) titleEl.style.display = 'none';
+
+      // Convert remaining child divs to inner ul > li
+      const innerUl = document.createElement('ul');
+      [...row.children].forEach((child) => {
+        const li = document.createElement('li');
+        while (child.firstChild) li.appendChild(child.firstChild);
+        innerUl.appendChild(li);
+      });
+      panelLi.appendChild(innerUl);
     }
 
-    tabpanel.className = 'tabs-panel';
-    tabpanel.id = id;
-    tabpanel.setAttribute('aria-hidden', !!i);
-    tabpanel.setAttribute('aria-labelledby', `tab-${id}`);
-    tabpanel.setAttribute('role', 'tabpanel');
-
-    // build tab button
+    // Build tab button
     const button = document.createElement('button');
     button.className = 'tabs-tab';
     button.id = `tab-${id}`;
-
     button.innerHTML = headingContent;
-
     button.setAttribute('aria-controls', id);
     button.setAttribute('aria-selected', !i);
     button.setAttribute('role', 'tab');
     button.setAttribute('type', 'button');
 
     button.addEventListener('click', () => {
-      block.querySelectorAll('[role=tabpanel]').forEach((panel) => {
+      outerUl.querySelectorAll('[role=tabpanel]').forEach((panel) => {
         panel.setAttribute('aria-hidden', true);
       });
       tablist.querySelectorAll('button').forEach((btn) => {
         btn.setAttribute('aria-selected', false);
       });
-      tabpanel.setAttribute('aria-hidden', false);
+      panelLi.setAttribute('aria-hidden', false);
       button.setAttribute('aria-selected', true);
     });
 
-    // Ensure button carries no instrumentation so it doesn't show as separate item in UE
     if (button.firstElementChild) {
       moveInstrumentation(button.firstElementChild, null);
     }
-    // Hide the authored title field inside the panel (kept for editing within the tab item)
-    if (titleEl) {
-      titleEl.style.display = 'none';
-    }
 
-    // add the new tab list button, to the tablist
     tablist.append(button);
-
-    // remove the tab heading element from the panel
-    if (tab && tab.parentElement === tabpanel) {
-      tab.remove();
-    }
-
-    if (!cardStyleVariant) {
-      const ul = document.createElement('ul');
-      [...tabpanel.children].forEach((child) => {
-        const li = document.createElement('li');
-        while (child.firstChild) li.appendChild(child.firstChild);
-        ul.appendChild(li);
-      });
-      tabpanel.replaceChildren(ul);
-    }
+    outerUl.append(panelLi);
   });
 
-  block.prepend(tablist);
+  outerUl.prepend(tablist);
+  block.textContent = '';
+  block.append(outerUl);
 }
