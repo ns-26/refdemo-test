@@ -1,29 +1,13 @@
-.tabs > ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+/* Tab navigation bar */
+.tabs .tabs-nav {
   display: flex;
   flex-wrap: wrap;
+  border-bottom: 2px solid var(--light-color);
+  margin: 0;
+  padding: 0;
 }
-
-/* li collapses its box; children join the parent flex layout */
-.tabs .tabs-item {
-  display: contents;
-}
-
-/* Full-width separator between the button row and content */
-.tabs > ul::after {
-  content: '';
-  order: 0;
-  flex-basis: 100%;
-  height: 2px;
-  background-color: var(--light-color);
-}
-
-/* --- Tab buttons (order -1 → always in the top row) --- */
 
 .tabs .tabs-tab {
-  order: -1;
   flex: 0 0 max-content;
   margin: 0 0 -2px;
   border: none;
@@ -51,10 +35,6 @@
   color: var(--link-hover-color);
 }
 
-.tabs .tabs-tab p {
-  margin: 0;
-}
-
 .tabs .tabs-tab[aria-selected='true'] {
   border-bottom-color: var(--main-accent-color);
   background-color: transparent;
@@ -67,64 +47,42 @@
   background-color: var(--tab-background-color);
 }
 
-/* --- Content (order 1 → below separator, hidden unless active) --- */
-
-.tabs .tabs-item > :not(.tabs-tab) {
-  order: 1;
-  flex-basis: 100%;
+/* Tab panels — original rows preserved for DA selectors */
+.tabs .tabs-item {
   display: none;
-  padding-left: 24px;
-  padding-right: 24px;
-  margin: 0;
   background-color: var(--tab-background-color);
 }
 
-.tabs .tabs-item.active > :not(.tabs-tab) {
+.tabs .tabs-item.active {
   display: block;
 }
 
-.tabs .tabs-item > .tabs-tab + * {
-  padding-top: 24px;
+/* Hide the title column (col 1) visually; DA still targets it */
+.tabs .tabs-item > div:nth-child(1) {
+  display: none;
 }
 
-.tabs .tabs-item > :last-child:not(.tabs-tab) {
-  padding-bottom: 24px;
+/* Content column (col 2) */
+.tabs .tabs-item > div:nth-child(2) {
+  padding: 24px;
 }
 
 @media (width >= 768px) {
-  .tabs .tabs-item > :not(.tabs-tab) {
-    padding-left: 40px;
-    padding-right: 40px;
-  }
-
-  .tabs .tabs-item > .tabs-tab + * {
-    padding-top: 32px;
-  }
-
-  .tabs .tabs-item > :last-child:not(.tabs-tab) {
-    padding-bottom: 32px;
+  .tabs .tabs-item > div:nth-child(2) {
+    padding: 32px 40px;
   }
 }
 
 @media (width >= 1024px) {
-  .tabs .tabs-item > :not(.tabs-tab) {
-    padding-left: 48px;
-    padding-right: 48px;
-  }
-
-  .tabs .tabs-item > .tabs-tab + * {
-    padding-top: 40px;
-  }
-
-  .tabs .tabs-item > :last-child:not(.tabs-tab) {
-    padding-bottom: 40px;
+  .tabs .tabs-item > div:nth-child(2) {
+    padding: 40px 48px;
   }
 }
 
 /* --- Card Style Tab Variant --- */
 
-.tabs.card-style-tab > ul::after {
-  display: none;
+.tabs.card-style-tab .tabs-nav {
+  border-bottom: none;
 }
 
 .tabs.card-style-tab .tabs-tab {
@@ -136,83 +94,67 @@
   border-bottom-color: var(--main-accent-color);
 }
 
-.tabs.card-style-tab .tabs-item > .tabs-panel {
-  order: 1;
-  flex-basis: 100%;
-  display: none;
-  padding: 0;
-  margin: 0;
+.tabs.card-style-tab .tabs-item {
   background-color: var(--background-color);
   box-shadow: 0 3px 20px rgb(0 0 0 / 6%);
   border-radius: 4px;
   overflow: hidden;
 }
 
-.tabs.card-style-tab .tabs-item.active > .tabs-panel {
-  display: flex;
-  flex-direction: row;
+.tabs.card-style-tab .tabs-item > div:nth-child(2) {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   min-height: 400px;
+  padding: 0;
 }
 
-.tabs.card-style-tab .tabs-panel .tabs-panel-image,
-.tabs.card-style-tab .tabs-panel picture {
+.tabs.card-style-tab .tabs-item > div:nth-child(2) > picture {
+  grid-column: 1;
+  grid-row: 1 / -1;
   display: flex;
   overflow: hidden;
 }
 
-.tabs.card-style-tab .tabs-panel picture img,
-.tabs.card-style-tab .tabs-panel .tabs-panel-image img,
-.tabs.card-style-tab .tabs-panel .tabs-panel-image picture img {
+.tabs.card-style-tab .tabs-item > div:nth-child(2) > picture img {
   width: 100%;
   height: auto;
   object-fit: contain;
   object-position: center;
   display: block;
-  padding-top: 60px;
-  padding-bottom: 60px;
+  padding: 60px 0;
 }
 
-.tabs.card-style-tab .tabs-panel .tabs-panel-image p {
-  margin: 0;
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
-.tabs.card-style-tab .tabs-panel .tabs-panel-content {
-  flex: 0 0 50%;
-  padding: 40px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.tabs.card-style-tab .tabs-panel.no-image .tabs-panel-content {
-  flex: 1 0 auto;
-}
-
-.tabs.card-style-tab .tabs-panel .tabs-panel-content > * {
+.tabs.card-style-tab .tabs-item > div:nth-child(2) > p {
+  grid-column: 2;
+  padding: 0 40px;
   margin: 0 0 16px;
+  display: flex;
+  align-items: center;
 }
 
-.tabs.card-style-tab .tabs-panel .tabs-panel-content > *:last-child {
+.tabs.card-style-tab .tabs-item > div:nth-child(2) > p:first-child {
+  padding-top: 40px;
+}
+
+.tabs.card-style-tab .tabs-item > div:nth-child(2) > p:last-child {
   margin-bottom: 0;
+  padding-bottom: 40px;
 }
 
 @media (width <= 767px) {
-  .tabs.card-style-tab .tabs-item.active > .tabs-panel {
-    flex-direction: column;
+  .tabs.card-style-tab .tabs-item > div:nth-child(2) {
+    grid-template-columns: 1fr;
     min-height: auto;
   }
 
-  .tabs.card-style-tab .tabs-panel .tabs-panel-image,
-  .tabs.card-style-tab .tabs-panel picture {
-    flex: 0 0 auto;
+  .tabs.card-style-tab .tabs-item > div:nth-child(2) > picture {
+    grid-column: 1;
+    grid-row: auto;
     max-height: 300px;
   }
 
-  .tabs.card-style-tab .tabs-panel .tabs-panel-content {
-    flex: 0 0 auto;
-    padding: 24px;
+  .tabs.card-style-tab .tabs-item > div:nth-child(2) > p {
+    grid-column: 1;
+    padding: 0 24px;
   }
 }
