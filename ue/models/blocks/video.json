@@ -9,7 +9,7 @@
           "rows": 1,
           "columns": 1,
           "fields": [
-            { "name": "videoUrl", "selector": "div:nth-child(1)>div:nth-child(1)>video>source[src]" }
+            { "name": "videoUrl", "selector": "div>div>video>source[src]" }
           ]
         }
       }
