@@ -174,6 +174,16 @@ export default async function decorate(block) {
     if (tab && tab.parentElement === tabpanel) {
       tab.remove();
     }
+
+    if (!cardStyleVariant) {
+      const ul = document.createElement('ul');
+      [...tabpanel.children].forEach((child) => {
+        const li = document.createElement('li');
+        while (child.firstChild) li.appendChild(child.firstChild);
+        ul.appendChild(li);
+      });
+      tabpanel.replaceChildren(ul);
+    }
   });
 
   block.prepend(tablist);

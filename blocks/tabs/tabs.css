@@ -87,6 +87,17 @@
   display: none;
 }
 
+.tabs .tabs-panel ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.tabs .tabs-panel li {
+  margin: 0;
+  padding: 0;
+}
+
 /* Card Style Tab Variant - Image Left, Text Right */
 .tabs.card-style-tab .tabs-panel {
   padding: 0;
