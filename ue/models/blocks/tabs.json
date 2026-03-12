@@ -42,7 +42,7 @@
           "valueType": "string",
           "label": "Tab Name",
           "multi": false,
-          "value": ""
+          "value": "title"
         },
         {
           "component": "text",
@@ -50,7 +50,7 @@
           "valueType": "string",
           "label": "Heading",
           "multi": false,
-          "value": ""
+          "value": "heading"
         },
         {
           "component": "select",
@@ -84,7 +84,7 @@
             }
           ],
           "multi": false,
-          "value": ""
+          "value": "h2"
         },
         {
           "component": "reference",
@@ -105,7 +105,7 @@
           "name": "content",
           "label": "Content",
           "valueType": "string",
-          "value": ""
+          "value": "content"
         }
       ]
     }
