@@ -41,16 +41,14 @@
           "name": "title",
           "valueType": "string",
           "label": "Tab Name",
-          "multi": false,
-          "value": "title"
+          "multi": false
         },
         {
           "component": "text",
           "name": "heading",
           "valueType": "string",
           "label": "Heading",
-          "multi": false,
-          "value": "heading"
+          "multi": false
         },
         {
           "component": "select",
@@ -83,8 +81,7 @@
               "value": "h6"
             }
           ],
-          "multi": false,
-          "value": "h2"
+          "multi": false
         },
         {
           "component": "reference",
@@ -104,8 +101,7 @@
           "component": "richtext",
           "name": "content",
           "label": "Content",
-          "valueType": "string",
-          "value": "content"
+          "valueType": "string"
         }
       ]
     }
