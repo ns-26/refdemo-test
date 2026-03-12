@@ -329,27 +329,27 @@
               "fields": [
                 {
                   "name": "title",
-                  "selector": "button.tabs-tab"
+                  "selector": "div:nth-child(1)"
                 },
                 {
                   "name": "heading",
-                  "selector": "p:nth-child(2)"
+                  "selector": "div:nth-child(2)>p:nth-child(1)"
                 },
                 {
                   "name": "subheading",
-                  "selector": "p:nth-child(3)"
+                  "selector": "div:nth-child(2)>p:nth-child(2)"
                 },
                 {
                   "name": "image",
-                  "selector": "picture>img[src]"
+                  "selector": "div:nth-child(2)>picture>img[src]"
                 },
                 {
                   "name": "imageAlt",
-                  "selector": "picture>img[alt]"
+                  "selector": "div:nth-child(2)>picture>img[alt]"
                 },
                 {
                   "name": "content",
-                  "selector": "p:nth-child(5)"
+                  "selector": "div:nth-child(2)>p:nth-child(4)"
                 }
               ]
             }
