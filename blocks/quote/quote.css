@@ -1,41 +1,95 @@
 .quote blockquote {
-  margin: 0 auto;
-  padding: 0 24px;
-  max-width: 900px;
+  position: relative;
+  margin: 2rem auto;
+  padding: 3rem;
+  max-width: 800px;
+  background-color: #fff;
+  border-radius: 1rem;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
+  font-family: Georgia, 'Times New Roman', serif;
+}
+
+@media (width >= 768px) {
+  .quote blockquote {
+    padding: 3.5rem 4rem;
+  }
 }
 
 @media (width >= 900px) {
   .quote blockquote {
-    padding: 0 32px;
+    padding: 4rem 5rem;
   }
 }
 
 .quote blockquote .quote-quotation {
-  font-size: 120%;
+  font-size: 1.5rem;
+  line-height: 1.6;
+  color: #9ca3af;
+  margin-bottom: 1.5rem;
+  position: relative;
+  padding-left: 3rem;
+}
+
+@media (width >= 768px) {
+  .quote blockquote .quote-quotation {
+    font-size: 1.75rem;
+  }
 }
 
 .quote blockquote .quote-quotation > :first-child {
-  text-indent: -0.5ch;
+  text-indent: 0;
 }
 
-.quote blockquote .quote-quotation > :first-child::before,
-.quote blockquote .quote-quotation > :last-child::after {
-  line-height: 0;
+.quote blockquote .quote-quotation p {
+  margin: 0;
 }
 
-.quote blockquote .quote-quotation > :first-child::before {
-  content: "“";
+.quote blockquote .quote-quotation::before {
+  content: '"';
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 8rem;
+  line-height: 0.8;
+  color: var(--main-accent-color);
+  font-weight: 400;
+  position: absolute;
+  top: -18px;
+  left: -5px;
+  text-shadow: 0 2px 4px rgb(0 0 0 / 15%);
+  z-index: 1;
 }
 
-.quote blockquote .quote-quotation > :last-child::after {
-  content: "”";
+.quote blockquote .quote-quotation p:first-child::before {
+  display: none;
+}
+
+.quote blockquote .quote-quotation p:last-child::after {
+  display: none;
 }
 
 .quote blockquote .quote-attribution {
   text-align: right;
+  font-size: 1.25rem;
+  font-style: italic;
+  color: #5c6370;
+  margin-top: 2rem;
 }
 
-.quote blockquote .quote-attribution > :first-child::before {
-  content: "—";
-  padding-right: 0.5ch;
+@media (width >= 768px) {
+  .quote blockquote .quote-attribution {
+    font-size: 1.35rem;
+  }
+}
+
+.quote blockquote .quote-attribution p {
+  margin: 0;
+}
+
+.quote blockquote .quote-attribution p:first-child::before {
+  content: '';
+  padding-right: 0;
+}
+
+.quote blockquote .quote-attribution cite {
+  font-style: italic;
+  font-weight: normal;
 }
