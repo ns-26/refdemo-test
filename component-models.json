@@ -270,10 +270,18 @@
     "id": "dynamicmedia-template",
     "fields": [
       {
-        "component": "text",
+        "component": "select",
         "name": "type",
         "label": "Type",
-        "required": true
+        "required": true,
+        "valueType": "string",
+        "options": [
+          {
+            "name": "Inline",
+            "value": "inline"
+          }
+        ],
+        "value": "inline"
       },
       {
         "component": "text",
@@ -285,7 +293,7 @@
         "component": "text",
         "name": "variableMappings",
         "label": "Variable Mappings",
-        "multi": true
+        "valueType": "string"
       }
     ]
   },
