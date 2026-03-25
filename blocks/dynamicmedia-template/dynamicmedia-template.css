@@ -3,22 +3,11 @@
 }
 
 .dynamicmedia-template {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   overflow: hidden;
 }
 
 .dynamicmedia-template .dm-template-image {
   width: 100%;
-  max-height: 80vh;
-  object-fit: cover;
   display: block;
-}
-
-@media (width >= 900px) {
-  .dynamicmedia-template .dm-template-image {
-    max-height: 600px;
-    object-fit: contain;
-  }
+  object-fit: cover;
 }
