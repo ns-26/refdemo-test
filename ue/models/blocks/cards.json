@@ -56,11 +56,37 @@
           "valueType": "string"
         },
         {
-          "component": "text",
+          "component": "select",
           "name": "position",
-          "value": "",
           "label": "Image Position",
-          "valueType": "string"
+          "valueType": "string",
+          "options": [
+            {
+              "name": "Image Top",
+              "value": "image-top"
+            },
+            {
+              "name": "Image Right",
+              "value": "image-right"
+            },
+            {
+              "name": "Image Left",
+              "value": "image-left"
+            },
+            {
+              "name": "Image Bottom",
+              "value": "image-bottom"
+            },
+            {
+              "name": "Teaser Overlay",
+              "value": "teaser-overlay"
+            },
+            {
+              "name": "Teaser Card",
+              "value": "teaser-card"
+            }
+          ],
+          "value": "image-top"
         }
       ]
     }
