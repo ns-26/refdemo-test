@@ -1,47 +1,80 @@
-// eslint-disable-next-line import/no-unresolved
-import { toClassName } from '../../scripts/aem.js';
-
 export default async function decorate(block) {
-  // build tablist
-  const tablist = document.createElement('div');
-  tablist.className = 'tabs-list';
-  tablist.setAttribute('role', 'tablist');
+  const tabsStyleParagraph = block.querySelector('p[data-aue-prop="tabsstyle"]');
+  const tabsStyle = tabsStyleParagraph?.textContent?.trim() || '';
 
-  // decorate tabs and tabpanels
-  const tabs = [...block.children].map((child) => child.firstElementChild);
-  tabs.forEach((tab, i) => {
-    const id = toClassName(tab.textContent);
+  if (tabsStyle && tabsStyle !== 'default' && tabsStyle !== '') {
+    block.classList.add(tabsStyle);
+  }
 
-    // decorate tabpanel
-    const tabpanel = block.children[i];
-    tabpanel.className = 'tabs-panel';
-    tabpanel.id = `tabpanel-${id}`;
-    tabpanel.setAttribute('aria-hidden', !!i);
-    tabpanel.setAttribute('aria-labelledby', `tab-${id}`);
-    tabpanel.setAttribute('role', 'tabpanel');
+  if (!block.classList.contains('card-style-tab')) {
+    const knownStyles = new Set(['card-style-tab']);
+    const styleContainerFallback = [...block.children].find((child) => (
+      [...child.querySelectorAll('p')].some((p) => knownStyles.has(p.textContent?.trim()))
+    ));
+    if (styleContainerFallback) {
+      const detected = [...styleContainerFallback.querySelectorAll('p')]
+        .map((p) => p.textContent?.trim())
+        .find((txt) => knownStyles.has(txt));
+      if (detected) {
+        block.classList.add(detected);
+        styleContainerFallback.remove();
+      }
+    }
+  }
 
-    // build tab button
-    const button = document.createElement('button');
-    button.className = 'tabs-tab';
-    button.id = `tab-${id}`;
-    button.innerHTML = tab.innerHTML;
-    button.setAttribute('aria-controls', `tabpanel-${id}`);
-    button.setAttribute('aria-selected', !i);
-    button.setAttribute('role', 'tab');
-    button.setAttribute('type', 'button');
-    button.addEventListener('click', () => {
-      block.querySelectorAll('[role=tabpanel]').forEach((panel) => {
-        panel.setAttribute('aria-hidden', true);
-      });
-      tablist.querySelectorAll('button').forEach((btn) => {
-        btn.setAttribute('aria-selected', false);
-      });
-      tabpanel.setAttribute('aria-hidden', false);
-      button.setAttribute('aria-selected', true);
-    });
-    tablist.append(button);
-    tab.remove();
+  const styleNodes = block.querySelectorAll('p[data-aue-prop="tabsstyle"]');
+  styleNodes.forEach((node) => {
+    let container = node;
+    while (container && container.parentElement !== block) {
+      container = container.parentElement;
+    }
+    if (container && container.parentElement === block) {
+      container.remove();
+    } else {
+      node.remove();
+    }
   });
 
-  block.prepend(tablist);
+  [...block.children]
+    .filter((child) => child.matches && child.matches('p[data-aue-prop="title"]'))
+    .forEach((titleNode) => titleNode.remove());
+
+  const tabItems = [];
+  [...block.children].forEach((row) => {
+    if (!row || !row.firstElementChild) return;
+    if (row.querySelector && row.querySelector('p[data-aue-prop="tabsstyle"]')) return;
+    const titleCol = row.querySelector(':scope > div:nth-child(1)');
+    const explicitTitle = row.querySelector('p[data-aue-prop="title"]');
+    const labelText = (explicitTitle?.textContent || titleCol?.textContent || '').trim();
+    if (!labelText) return;
+    tabItems.push({ row, labelText });
+  });
+
+  const nav = document.createElement('div');
+  nav.className = 'tabs-nav';
+  nav.setAttribute('role', 'tablist');
+
+  tabItems.forEach((item, i) => {
+    const { row, labelText } = item;
+    row.classList.add('tabs-item');
+    if (i === 0) row.classList.add('active');
+
+    const button = document.createElement('button');
+    button.className = 'tabs-tab';
+    button.textContent = labelText;
+    button.setAttribute('aria-selected', i === 0);
+    button.setAttribute('role', 'tab');
+    button.setAttribute('type', 'button');
+
+    button.addEventListener('click', () => {
+      block.querySelectorAll('.tabs-item').forEach((el) => el.classList.remove('active'));
+      nav.querySelectorAll('.tabs-tab').forEach((btn) => btn.setAttribute('aria-selected', false));
+      row.classList.add('active');
+      button.setAttribute('aria-selected', true);
+    });
+
+    nav.appendChild(button);
+  });
+
+  block.prepend(nav);
 }
