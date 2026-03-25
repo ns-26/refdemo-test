@@ -482,12 +482,6 @@
         "name": "buttonText",
         "label": "Button Text",
         "required": true
-      },
-      {
-        "component": "text",
-        "name": "buttonLink",
-        "label": "Button Link",
-        "required": true
       }
     ]
   },
