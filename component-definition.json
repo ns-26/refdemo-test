@@ -374,7 +374,7 @@
                 },
                 {
                   "name": "videoReference",
-                  "selector": "div:nth-child(3)>div:nth-child(1)>a[href]"
+                  "selector": "div:nth-child(3)>a[href]"
                 },
                 {
                   "name": "imageReference",
