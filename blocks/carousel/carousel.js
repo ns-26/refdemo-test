@@ -13,14 +13,14 @@ export default function decorate(block) {
   const leftContent = document.createElement('div');
 
   // Find the first row index that should be a carousel item
-  let carouselStartIndex = 0;
+  let carouselStartIndex = -1;
   [...block.children].forEach((row, index) => {
-    if (row.children.length === 4 && carouselStartIndex === 0 && index > 0) {
+    if (row.children.length === 4 && carouselStartIndex === -1) {
       carouselStartIndex = index;
     }
   });
 
-  if (carouselStartIndex === 0) {
+  if (carouselStartIndex === -1) {
     carouselStartIndex = 4;
   }
 
