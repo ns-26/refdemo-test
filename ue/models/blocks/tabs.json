@@ -21,9 +21,9 @@
           "rows": 1,
           "columns": 5,
           "fields": [
-            { "name": "title", "selector": "div:nth-child(1)" },
-            { "name": "heading", "selector": "div:nth-child(2)" },
-            { "name": "headingType", "selector": "div:nth-child(3)" },
+            { "name": "title", "selector": "div:nth-child(1)>p:nth-child(1)" },
+            { "name": "heading", "selector": "div:nth-child(2)>p:nth-child(1)" },
+            { "name": "headingType", "selector": "div:nth-child(3)>p:nth-child(1)" },
             { "name": "image", "selector": "div:nth-child(4)>picture>img[src]" },
             { "name": "imageAlt", "selector": "div:nth-child(4)>picture>img[alt]" },
             { "name": "content", "selector": "div:nth-child(5)" }

@@ -329,15 +329,15 @@
               "fields": [
                 {
                   "name": "title",
-                  "selector": "div:nth-child(1)"
+                  "selector": "div:nth-child(1)>p:nth-child(1)"
                 },
                 {
                   "name": "heading",
-                  "selector": "div:nth-child(2)"
+                  "selector": "div:nth-child(2)>p:nth-child(1)"
                 },
                 {
                   "name": "headingType",
-                  "selector": "div:nth-child(3)"
+                  "selector": "div:nth-child(3)>p:nth-child(1)"
                 },
                 {
                   "name": "image",
