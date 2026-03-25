@@ -219,7 +219,7 @@
                 },
                 {
                   "name": "dynamicMediaUrl",
-                  "selector": "div:nth-child(2)>div:nth-child(1)>p>a[href]"
+                  "selector": "div:nth-child(2)>div:nth-child(1)>p"
                 },
                 {
                   "name": "variableMappings",

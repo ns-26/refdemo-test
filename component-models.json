@@ -287,7 +287,8 @@
         "component": "text",
         "name": "dynamicMediaUrl",
         "label": "Dynamic Media URL",
-        "required": true
+        "required": true,
+        "valueType": "string"
       },
       {
         "component": "text",
