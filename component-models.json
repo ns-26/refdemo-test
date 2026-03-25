@@ -222,7 +222,7 @@
     ]
   },
   {
-    "id": "column-cell",
+    "id": "columns-cell",
     "fields": [
       {
         "component": "richtext",
