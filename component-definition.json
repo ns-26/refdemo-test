@@ -341,15 +341,15 @@
                 },
                 {
                   "name": "image",
-                  "selector": "picture>img[src]"
+                  "selector": "div:nth-child(4)>picture>img[src]"
                 },
                 {
                   "name": "imageAlt",
-                  "selector": "picture>img[alt]"
+                  "selector": "div:nth-child(4)>picture>img[alt]"
                 },
                 {
                   "name": "content",
-                  "selector": "div:nth-child(5)>p:nth-child(1)"
+                  "selector": "div:nth-child(5)"
                 }
               ]
             }

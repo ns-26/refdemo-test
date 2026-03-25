@@ -1,52 +1,58 @@
+const VALID_HEADING_TAGS = new Set(['h1', 'h2', 'h3', 'h4', 'h5', 'h6']);
+
 export default async function decorate(block) {
-  const tabsStyleParagraph = block.querySelector('p[data-aue-prop="tabsstyle"]');
-  const tabsStyle = tabsStyleParagraph?.textContent?.trim() || '';
-
-  if (tabsStyle && tabsStyle !== 'default' && tabsStyle !== '') {
-    block.classList.add(tabsStyle);
-  }
-
-  if (!block.classList.contains('card-style-tab')) {
-    const knownStyles = new Set(['card-style-tab']);
-    const styleContainerFallback = [...block.children].find((child) => (
-      [...child.querySelectorAll('p')].some((p) => knownStyles.has(p.textContent?.trim()))
-    ));
-    if (styleContainerFallback) {
-      const detected = [...styleContainerFallback.querySelectorAll('p')]
-        .map((p) => p.textContent?.trim())
-        .find((txt) => knownStyles.has(txt));
-      if (detected) {
-        block.classList.add(detected);
-        styleContainerFallback.remove();
-      }
-    }
-  }
-
-  const styleNodes = block.querySelectorAll('p[data-aue-prop="tabsstyle"]');
-  styleNodes.forEach((node) => {
+  block.querySelectorAll('p[data-aue-prop="tabsstyle"]').forEach((node) => {
+    const style = node.textContent?.trim();
+    if (style && style !== 'default') block.classList.add(style);
     let container = node;
-    while (container && container.parentElement !== block) {
-      container = container.parentElement;
-    }
-    if (container && container.parentElement === block) {
-      container.remove();
-    } else {
-      node.remove();
-    }
+    while (container && container.parentElement !== block) container = container.parentElement;
+    if (container?.parentElement === block) container.remove();
+    else node.remove();
   });
 
-  [...block.children]
-    .filter((child) => child.matches && child.matches('p[data-aue-prop="title"]'))
-    .forEach((titleNode) => titleNode.remove());
-
   const tabItems = [];
+
   [...block.children].forEach((row) => {
-    if (!row || !row.firstElementChild) return;
-    if (row.querySelector && row.querySelector('p[data-aue-prop="tabsstyle"]')) return;
-    const titleCol = row.querySelector(':scope > div:nth-child(1)');
-    const explicitTitle = row.querySelector('p[data-aue-prop="title"]');
-    const labelText = (explicitTitle?.textContent || titleCol?.textContent || '').trim();
+    if (!row?.firstElementChild) return;
+    const cols = [...row.children];
+    if (cols.length < 2) return;
+
+    const titleCol = cols[0];
+    const headingCol = cols[1];
+    const headingTypeCol = cols[2];
+    const imageCol = cols[3];
+    const contentCol = cols[4];
+
+    const labelText = titleCol?.textContent?.trim() || '';
     if (!labelText) return;
+
+    const headingText = headingCol?.textContent?.trim() || '';
+    const headingType = headingTypeCol?.textContent?.trim().toLowerCase() || '';
+
+    const content = document.createElement('div');
+    content.className = 'tabs-content';
+
+    if (headingText) {
+      const tag = VALID_HEADING_TAGS.has(headingType) ? headingType : 'h2';
+      const heading = document.createElement(tag);
+      heading.textContent = headingText;
+      content.appendChild(heading);
+    }
+
+    const picture = imageCol?.querySelector('picture');
+    if (picture) content.appendChild(picture);
+
+    if (contentCol?.innerHTML?.trim()) {
+      const textDiv = document.createElement('div');
+      textDiv.className = 'tabs-text';
+      textDiv.innerHTML = contentCol.innerHTML;
+      content.appendChild(textDiv);
+    }
+
+    row.textContent = '';
+    row.appendChild(titleCol);
+    row.appendChild(content);
+
     tabItems.push({ row, labelText });
   });
 
@@ -54,26 +60,25 @@ export default async function decorate(block) {
   nav.className = 'tabs-nav';
   nav.setAttribute('role', 'tablist');
 
-  tabItems.forEach((item, i) => {
-    const { row, labelText } = item;
+  tabItems.forEach(({ row, labelText }, i) => {
     row.classList.add('tabs-item');
     if (i === 0) row.classList.add('active');
 
-    const button = document.createElement('button');
-    button.className = 'tabs-tab';
-    button.textContent = labelText;
-    button.setAttribute('aria-selected', i === 0);
-    button.setAttribute('role', 'tab');
-    button.setAttribute('type', 'button');
+    const btn = document.createElement('button');
+    btn.className = 'tabs-tab';
+    btn.textContent = labelText;
+    btn.setAttribute('aria-selected', String(i === 0));
+    btn.setAttribute('role', 'tab');
+    btn.setAttribute('type', 'button');
 
-    button.addEventListener('click', () => {
+    btn.addEventListener('click', () => {
       block.querySelectorAll('.tabs-item').forEach((el) => el.classList.remove('active'));
-      nav.querySelectorAll('.tabs-tab').forEach((btn) => btn.setAttribute('aria-selected', false));
+      nav.querySelectorAll('.tabs-tab').forEach((b) => b.setAttribute('aria-selected', 'false'));
       row.classList.add('active');
-      button.setAttribute('aria-selected', true);
+      btn.setAttribute('aria-selected', 'true');
     });
 
-    nav.appendChild(button);
+    nav.appendChild(btn);
   });
 
   block.prepend(nav);

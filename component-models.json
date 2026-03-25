@@ -396,7 +396,6 @@
       {
         "component": "select",
         "name": "headingType",
-        "valueType": "string",
         "label": "Heading Type",
         "options": [
           {
@@ -424,7 +423,9 @@
             "value": "h6"
           }
         ],
-        "multi": false
+        "multi": false,
+        "valueType": "string",
+        "value": "h3"
       },
       {
         "component": "reference",
