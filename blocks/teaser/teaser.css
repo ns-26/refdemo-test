@@ -18,9 +18,12 @@
 
 .teaser-wrapper .background-image,
 .teaser-wrapper .video-container {
-  width: 100%;
+  width: 70%;
+  max-width: 860px;
   position: absolute;
   height: 482px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .teaser-wrapper .video-container .video-play-btn,

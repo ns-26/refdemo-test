@@ -3,7 +3,6 @@ import {
   h2,
 } from '../../scripts/dom-helpers.js';
 
-const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 const SAMPLE_VIDEO = 'https://v.ftcdn.net/02/35/97/40/700_F_235974059_oVftmgBBJ32tgsDvxRdMdtpQDMfNFWEt_ST.mp4';
 
 function createVideoPlayer(videoSrc) {
@@ -47,18 +46,17 @@ function observeVideo(block) {
   const videoPlayerEl = block.querySelector('video');
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        if (!(prefersReducedMotion.matches) && (videoPlayerEl.dataset.state !== 'pause')) {
-          const playButton = document.getElementById('playButton');
-          const pauseButton = document.getElementById('pauseButton');
-          playButton.classList.add('inactive');
-          playButton.removeAttribute('tabindex');
-          pauseButton.classList.remove('inactive');
-          pauseButton.setAttribute('tabindex', 0);
-          videoPlayerEl.play();
-        }
-      } else {
+      if (!entry.isIntersecting) {
         videoPlayerEl.pause();
+        videoPlayerEl.dataset.state = 'pause';
+        const playButton = document.getElementById('playButton');
+        const pauseButton = document.getElementById('pauseButton');
+        if (playButton && pauseButton) {
+          playButton.classList.remove('inactive');
+          playButton.setAttribute('tabindex', 0);
+          pauseButton.classList.add('inactive');
+          pauseButton.removeAttribute('tabindex');
+        }
       }
     });
   }, { threshold: 0.5 });

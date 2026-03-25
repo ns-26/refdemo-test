@@ -465,7 +465,7 @@
         "required": true
       },
       {
-        "component": "text",
+        "component": "richtext",
         "name": "videoReference",
         "label": "Video Reference",
         "required": true
