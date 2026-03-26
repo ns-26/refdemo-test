@@ -17,6 +17,13 @@
       "event": "experimentation"
     },
     {
+      "id": "workfront-task",
+      "title": "Assign Workfront Task",
+      "environments": ["edit"],
+      "daLibrary": true,
+      "url": "https://wf-extension--refdemo-da--AEMXSC.aem.live/tools/workfront/workfront.html"
+    },
+    {
       "id": "aem-labs",
       "title": "AEM Labs",
       "environments": ["edit"],
