@@ -276,6 +276,51 @@
           }
         },
         {
+          "title": "Photo Gallery",
+          "id": "photo-gallery",
+          "model": "photo-gallery",
+          "filter": "photo-gallery",
+          "plugins": {
+            "da": {
+              "rows": 0,
+              "columns": 0
+            }
+          }
+        },
+        {
+          "title": "Photo Gallery Item",
+          "id": "photo-gallery-item",
+          "model": "photo-gallery-item",
+          "plugins": {
+            "da": {
+              "rows": 1,
+              "columns": 4,
+              "fields": [
+                {
+                  "name": "image",
+                  "selector": "div:nth-child(1)>picture>img[src]"
+                },
+                {
+                  "name": "imageAlt",
+                  "selector": "div:nth-child(1)>picture>img[alt]"
+                },
+                {
+                  "name": "title",
+                  "selector": "div:nth-child(2)>:first-child"
+                },
+                {
+                  "name": "category",
+                  "selector": "div:nth-child(3)>p"
+                },
+                {
+                  "name": "description",
+                  "selector": "div:nth-child(4)"
+                }
+              ]
+            }
+          }
+        },
+        {
           "title": "Quote",
           "id": "quote",
           "model": "quote",

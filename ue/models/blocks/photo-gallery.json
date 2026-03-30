@@ -1,0 +1,82 @@
+{
+  "definitions": [
+    {
+      "title": "Photo Gallery",
+      "id": "photo-gallery",
+      "model": "photo-gallery",
+      "filter": "photo-gallery",
+      "plugins": {
+        "da": {
+          "rows": 0,
+          "columns": 0
+        }
+      }
+    },
+    {
+      "title": "Photo Gallery Item",
+      "id": "photo-gallery-item",
+      "model": "photo-gallery-item",
+      "plugins": {
+        "da": {
+          "rows": 1,
+          "columns": 4,
+          "fields": [
+            { "name": "image", "selector": "div:nth-child(1)>picture>img[src]" },
+            { "name": "imageAlt", "selector": "div:nth-child(1)>picture>img[alt]" },
+            { "name": "title", "selector": "div:nth-child(2)>:first-child" },
+            { "name": "category", "selector": "div:nth-child(3)>p" },
+            { "name": "description", "selector": "div:nth-child(4)" }
+          ]
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "photo-gallery-item",
+      "fields": [
+        {
+          "component": "reference",
+          "valueType": "string",
+          "name": "image",
+          "label": "Image",
+          "multi": false
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "imageAlt",
+          "label": "Image Alt Text",
+          "multi": false
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "title",
+          "label": "Title"
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "category",
+          "label": "Category"
+        },
+        {
+          "component": "richtext",
+          "valueType": "string",
+          "name": "description",
+          "label": "Description",
+          "value": ""
+        }
+      ]
+    }
+  ],
+  "filters": [
+    {
+      "id": "photo-gallery",
+      "components": [
+        "photo-gallery-item"
+      ]
+    }
+  ]
+}

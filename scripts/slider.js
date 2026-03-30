@@ -63,7 +63,7 @@ export default async function createSlider(block) {
   }
 
   // Button Event Handler
-  moveLeftBtns.forEach(btn => {
+  moveLeftBtns.forEach((btn) => {
     btn.addEventListener('click', () => {
       const carousel = btn.closest('.carousel-container').querySelector('.carousel');
       const carouselItems = carousel.querySelector('ul');
@@ -73,7 +73,7 @@ export default async function createSlider(block) {
     }, true);
   });
 
-  moveRightBtns.forEach(btn => {
+  moveRightBtns.forEach((btn) => {
     btn.addEventListener('click', () => {
       const carousel = btn.closest('.carousel-container').querySelector('.carousel');
       const carouselItems = carousel.querySelector('ul');

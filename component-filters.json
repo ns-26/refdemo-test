@@ -65,6 +65,12 @@
     ]
   },
   {
+    "id": "photo-gallery",
+    "components": [
+      "photo-gallery-item"
+    ]
+  },
+  {
     "id": "tabs",
     "components": [
       "tabs-item"
